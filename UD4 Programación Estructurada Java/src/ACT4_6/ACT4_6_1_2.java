@@ -28,7 +28,6 @@ public class ACT4_6_1_2 {
     public static void arraysTableroGusanoHojas() {
         tablero = UtilidadesMatrices.generaMatriz(NTABLERO, 0, 0);
         gusano = UtilidadesArrays.generaArray(2, 0, tablero.length - 1);
-        hojas = UtilidadesMatrices.generaMatrizFilaColumna(2, NHOJAS, SÍMBOLOHOJA, SÍMBOLOHOJA);
     }
 
     public static void rellenarTablero(int[][] tablero, int[] gusano) {
