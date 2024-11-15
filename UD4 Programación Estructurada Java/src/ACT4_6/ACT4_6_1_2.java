@@ -6,39 +6,40 @@ public class ACT4_6_1_2 {
 
     static int[] gusano;
     static int[][] tablero, hojas;
-    static final int SÍMBOLOGUSANO = 1, SÍMBOLOHOJA = 9;
+    static int SÍMBOLOGUSANO = 1;
+    static int SÍMBOLOHOJA = 9;
     static int NTABLERO;
-    static int accion;
     static int NHOJAS;
+    static int accion, nAleatorioFila, nAleatorioColumna, contadorHojas;
 
     public static void main(String[] args) {
         leerTableroHojas();
-        arraysTableroGusanoHojas();
+        arraysTableroGusano();
         rellenarTablero(tablero, gusano);
+        generarHojas();
         UtilidadesMatrices.mostrarMatriz(tablero);
         realizarAcciones(gusano, tablero);
     }
 
     public static void leerTableroHojas() {
         NTABLERO = UtilidadesConsola.leerEntero("Introduce la medida del tablero: ");
-        NHOJAS = UtilidadesConsola.leerEntero("Introduce la cantidad de hojas");
+        NHOJAS = UtilidadesConsola.leerEntero("Introduce la cantidad de hojas: ");
 
     }
 
-    public static void arraysTableroGusanoHojas() {
+    public static void arraysTableroGusano() {
         tablero = UtilidadesMatrices.generaMatriz(NTABLERO, 0, 0);
         gusano = UtilidadesArrays.generaArray(2, 0, tablero.length - 1);
     }
 
     public static void rellenarTablero(int[][] tablero, int[] gusano) {
         tablero[gusano[0]][gusano[1]] = SÍMBOLOGUSANO;
-        generarHojas();
     }
 
     public static int realizarAcciones(int[] gusano, int[][] tablero) {
         do {
             accion = UtilidadesConsola.leerEntero("Introduzca la acción que desea realizar: 8 - Arriba , 2 - Abajo , 4 - Izquierda , 6 - Derecha ");
-            tablero[gusano[0]][gusano[1]] = 0;
+            tablero[gusano[0]][gusano[1]] = 0;// Mueva el gusano hay que resetear su posición
             switch (accion) {
                 case 8 -> {
                     if (gusano[0] > 0) {
@@ -75,6 +76,7 @@ public class ACT4_6_1_2 {
             }
 
             rellenarTablero(tablero, gusano);
+            comprobarHojasActualizadas();
 
             UtilidadesMatrices.mostrarMatriz(tablero);
 
@@ -109,11 +111,32 @@ public class ACT4_6_1_2 {
     public static void generarHojas() {
         tablero[gusano[0]][gusano[1]] = SÍMBOLOGUSANO;
         for (int i = 0; i <= NHOJAS - 1; i++) {
-            int nAleatorio = (int) (Math.random() * tablero.length - 1);
-            tablero[nAleatorio][nAleatorio] = SÍMBOLOHOJA;
-            System.out.println(nAleatorio);
+            int nAleatorioFila = (int) (Math.random() * tablero.length - 1);
+            int nAleatorioColumna = (int) (Math.random() * tablero.length - 1);
+
+            tablero[nAleatorioFila][nAleatorioColumna] = SÍMBOLOHOJA;
         }
 
     }
 
+    public static void comprobarHojasActualizadas() {
+        contadorHojas = 0;
+        for (int i = 0; i < tablero.length; i++) {
+            for (int j = 0; j < tablero[0].length; j++) {
+                if (tablero[i][j] == SÍMBOLOHOJA) {
+                    contadorHojas++;
+                }
+            }
+        }
+
+        if (contadorHojas != NHOJAS) {
+            tablero[gusano[0]][gusano[1]] = SÍMBOLOGUSANO;
+            nAleatorioFila = (int) (Math.random() * tablero.length - 1);
+            nAleatorioColumna = (int) (Math.random() * tablero.length - 1);
+            tablero[nAleatorioFila][nAleatorioColumna] = SÍMBOLOHOJA;
+        }
+
+    }
 }
+
+
